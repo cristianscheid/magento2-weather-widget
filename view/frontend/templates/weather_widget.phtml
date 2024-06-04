@@ -1,0 +1,32 @@
+<?php
+
+/**
+ * @var CristianScheid\WeatherWidget\Block\WeatherWidget $block 
+ */
+if ($block->isModuleEnabled()){
+    $weatherData = $block->getWeatherData();
+    $selectedParameters = $block->getSelectedParameters();
+    /**
+     * @var \Magento\Framework\View\Element\AbstractBlock $block
+     */
+    $imagesBaseUrl = $block->getViewFileUrl('CristianScheid_WeatherWidget::images/');
+    
+    if ($weatherData && $selectedParameters && $imagesBaseUrl) {
+    ?>
+    <script>
+        var weatherData = <?php echo json_encode($weatherData); ?>;
+        var selectedParameters = <?php echo json_encode($selectedParameters); ?>;
+        var imagesBaseUrl = '<?php echo $imagesBaseUrl ?>';
+    </script>
+    <div id="weather-widget">
+        <div id="weather-icon">
+            <img src="">
+        </div>
+        <div id="weather-info"></div>
+    </div>
+    <?php
+    }
+    ?>
+<?php    
+}
+?>

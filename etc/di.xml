@@ -1,0 +1,5 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="CristianScheid\WeatherWidget\Api\ConfigInterface" type="CristianScheid\WeatherWidget\Model\Config" />
+    <preference for="CristianScheid\WeatherWidget\Api\GeolocationInterface" type="CristianScheid\WeatherWidget\Model\Geolocation" />
+    <preference for="CristianScheid\WeatherWidget\Api\WeatherInterface" type="CristianScheid\WeatherWidget\Model\Weather" />
+</config>
