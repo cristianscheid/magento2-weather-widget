@@ -5,11 +5,11 @@ namespace CristianScheid\WeatherWidget\Model;
 use CristianScheid\WeatherWidget\Api\ConfigInterface;
 use CristianScheid\WeatherWidget\Api\WeatherInterface;
 use CristianScheid\WeatherWidget\Logger\CustomLogger;
-use Magento\Framework\HTTP\Client\Curl;
+use CristianScheid\WeatherWidget\Model\Request;
 
 class Weather implements WeatherInterface
 {
-    private Curl $httpClient;
+    private Request $request;
     private ConfigInterface $configInterface;
     private CustomLogger $logger;
     private $weatherCodeMapping = [
@@ -44,12 +44,12 @@ class Weather implements WeatherInterface
     ];
 
     public function __construct(
+        Request $request,
         ConfigInterface $configInterface,
-        Curl $httpClient,
         CustomLogger $logger
     ) {
+        $this->request = $request;
         $this->configInterface = $configInterface;
-        $this->httpClient = $httpClient;
         $this->logger = $logger;
     }
 
@@ -58,113 +58,51 @@ class Weather implements WeatherInterface
      */
     public function getWeatherData($location): array
     {
-        $latitude = $location['lat'];
-        $longitude = $location['lon'];
-        $url = "https://api.open-meteo.com/v1/forecast?latitude={$latitude}&longitude={$longitude}&current=";
-        $url .= 'weather_code,is_day';
-
         $selectedParameters = $this->configInterface->getWeatherParameters();
-        if ($selectedParameters != '') {
-            $unwantedParametersUrl = ["location", "location,", "weather_description", "weather_description,"];
-            $parametersUrl = $selectedParameters;
-            foreach ($unwantedParametersUrl as $param) {
-                $parametersUrl = str_replace($param, '', $parametersUrl);
-            }
-            $url .= ',' . $parametersUrl;
-        }
-
-        $selectedParameters = explode(',', $selectedParameters);
-
-        if (in_array('temperature_2m', $selectedParameters)) {
-            $temperatureUnit = $this->configInterface->getTemperatureUnit();
-            switch ($temperatureUnit) {
-                case 'fahrenheit':
-                    $url .= '&temperature_unit=fahrenheit';
-                    break;
-                default:
-                    break;
-            }
-        }
-        if (in_array('precipitation', $selectedParameters)) {
-            $precipitationUnit = $this->configInterface->getPrecipitationUnit();
-            switch ($precipitationUnit) {
-                case 'inch':
-                    $url .= '&precipitation_unit=inch';
-                    break;
-                default:
-                    break;
-            }
-        }
-        if (in_array('wind_speed_10m', $selectedParameters)) {
-            $windspeedUnit = $this->configInterface->getWindSpeedUnit();
-            switch ($windspeedUnit) {
-                case 'ms':
-                    $url .= '&wind_speed_unit=ms';
-                    break;
-                case 'mph':
-                    $url .= '&wind_speed_unit=mph';
-                    break;
-                case 'kn':
-                    $url .= '&wind_speed_unit=kn';
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        $url .= '&timezone=' . $location['timezone'];
-        try {
-            $this->httpClient->get($url);
-            $response = $this->httpClient->getBody();
-            $responseDecoded = json_decode($response, true);
-
-            if (isset($responseDecoded['error']) && $responseDecoded['error'] === 'true') {
-                $this->logger->error('API (api.open-meteo.com) returned failure: ' . $responseDecoded['reason']);
-                return null;
-            }
-        } catch (\Exception $e) {
-            $this->logger->error('Error fetching data from API (api.open-meteo.com): ' . $e->getMessage());
-            return null;
-        }
+        $response = $this->request->makeRequestWeatherApi($location, $selectedParameters);
+        $responseDecoded = json_decode($response, true);
 
         $weatherData = [];
         $weatherData['is_day'] =  $responseDecoded['current']['is_day'];
         $weatherCode = $responseDecoded['current']['weather_code'];
         $weatherData['weather_icon'] = $this->getWeatherIcon($weatherCode, $weatherData['is_day']);
 
+        $selectedParameters = explode(',', $selectedParameters);
         foreach ($selectedParameters as &$parameter) {
             switch ($parameter) {
                 case 'location':
-                    $weatherData['location'] = $location['city'] . ', ' . $location['region'] . ', ' . $location['country'];
+                    $weatherData[$parameter] = $location['city'] . ', ' . $location['region'] . ', ' . $location['country'];
                     break;
                 case 'weather_description':
-                    $weatherData['weather_description'] = $this->getWeatherDescription($weatherCode);
+                    $weatherData[$parameter] = $this->getWeatherDescription($weatherCode);
                     break;
-
                 case 'temperature_2m':
-                    $weatherData['temperature_2m'] = $responseDecoded['current'][$parameter];
-                    $weatherData['temperature_2m'] .= ' ' . $this->getTemperatureUnitLabel($temperatureUnit);
+                    $weatherData[$parameter] = $responseDecoded['current'][$parameter];
+                    $temperatureUnit = $this->configInterface->getTemperatureUnit();
+                    $weatherData[$parameter] .= ' ' . $this->getTemperatureUnitLabel($temperatureUnit);
                     break;
                 case 'apparent_temperature':
-                    $weatherData['apparent_temperature'] = $responseDecoded['current'][$parameter];
-                    $weatherData['apparent_temperature'] .= ' ' . $this->getTemperatureUnitLabel($temperatureUnit);
+                    $weatherData[$parameter] = $responseDecoded['current'][$parameter];
+                    $temperatureUnit = $this->configInterface->getTemperatureUnit();
+                    $weatherData[$parameter] .= ' ' . $this->getTemperatureUnitLabel($temperatureUnit);
                     break;
                 case 'relative_humidity_2m':
-                    $weatherData['relative_humidity_2m'] = $responseDecoded['current'][$parameter];
-                    $weatherData['relative_humidity_2m'] .= '%';
+                    $weatherData[$parameter] = $responseDecoded['current'][$parameter];
+                    $weatherData[$parameter] .= '%';
                     break;
                 case 'precipitation':
-                    $weatherData['precipitation'] = $responseDecoded['current'][$parameter];
-                    $weatherData['precipitation'] .= ' ' . $this->getPrecipitationUnitLabel($precipitationUnit);
+                    $weatherData[$parameter] = $responseDecoded['current'][$parameter];
+                    $precipitationUnit = $this->configInterface->getPrecipitationUnit();
+                    $weatherData[$parameter] .= ' ' . $this->getPrecipitationUnitLabel($precipitationUnit);
                     break;
                 case 'wind_speed_10m':
                     $windspeedUnit = $this->configInterface->getWindSpeedUnit();
-                    $weatherData['wind_speed_10m'] = $responseDecoded['current'][$parameter];
-                    $weatherData['wind_speed_10m'] .= ' ' . $this->getWindSpeedUnitLabel($windspeedUnit);
+                    $weatherData[$parameter] = $responseDecoded['current'][$parameter];
+                    $weatherData[$parameter] .= ' ' . $this->getWindSpeedUnitLabel($windspeedUnit);
                     break;
                 case 'wind_direction_10m':
-                    $weatherData['wind_direction_10m'] = $responseDecoded['current'][$parameter];
-                    $weatherData['wind_direction_10m'] .= '°';
+                    $weatherData[$parameter] = $responseDecoded['current'][$parameter];
+                    $weatherData[$parameter] .= '°';
                     break;
                 default:
                     break;

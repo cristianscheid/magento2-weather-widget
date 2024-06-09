@@ -1,9 +1,109 @@
-document.addEventListener("DOMContentLoaded", function() {
-    const weatherIcon = document.getElementById('weather-icon');
-    const weatherInfo = document.getElementById('weather-info');
-    const pageHeader = document.querySelector('.page-header');
+document.addEventListener("DOMContentLoaded", function () {
+
+    const imagesBaseUrl = require.toUrl('CristianScheid_WeatherWidget/images');
+    let weatherIcon;
+    let weatherInfo;
+
+    async function checkApiService() {
+        const storedResponse = localStorage.getItem('weather-widget-api-response');
+        if (storedResponse) {
+            responseObject = JSON.parse(storedResponse);
+            createUpdateElements(responseObject);
+        } else {
+            await fetchDataAndUpdateStorage();
+        }
+    }
+
+    async function fetchDataAndUpdateStorage() {
+        try {
+            console.log('fetchDataAndUpdateStorage()');
+            const response = await fetch('/rest/V1/weatherwidget/data');
+            const responseJson = await response.json();
+            localStorage.setItem('weather-widget-api-response', responseJson);
+            responseObject = JSON.parse(responseJson);
+            createUpdateElements(responseObject);
+        } catch (error) {
+            console.error('Error fetching weather data:', error);
+        }
+    }
+
+    function createUpdateElements(response) {
+
+        let selectedParameters = response.data.selectedParameters;
+        let weatherData = response.data.weatherData;
+    
+        let weatherWidget = document.getElementById('weather-widget');
+        if (!weatherWidget) {
+            weatherWidget = document.createElement('div');
+            weatherWidget.id = 'weather-widget';
+            document.body.appendChild(weatherWidget);
+        }
+        
+        weatherIcon = document.getElementById('weather-icon');
+        let weatherIconImg = document.getElementById('weather-icon-img');;
+        if (!weatherIcon) {
+            weatherIcon = document.createElement('div');
+            weatherIcon.id = 'weather-icon';
+            weatherWidget.appendChild(weatherIcon);
+            weatherIconImg = document.createElement('img');
+            weatherIconImg.id = 'weather-icon-img';
+            weatherIcon.appendChild(weatherIconImg);
+        }
+        weatherIconImg.src = imagesBaseUrl + '/weather-icon/' + weatherData['weather_icon'];
+
+        weatherInfo = document.getElementById('weather-info');
+        if (!weatherInfo) {
+            weatherInfo = document.createElement('div');
+            weatherInfo.id = 'weather-info';
+            weatherWidget.appendChild(weatherInfo);
+        }
+
+        while (weatherInfo.firstChild) {
+            weatherInfo.removeChild(weatherInfo.firstChild);
+        }
+
+        let lastElement;
+        for (const parameter of selectedParameters) {
+
+            const weatherInfoItem = document.createElement('div');
+            weatherInfoItem.className = 'weather-info-item';
+    
+            const weatherInfoItemImg = document.createElement('img');
+            weatherInfoItemImg.src = imagesBaseUrl + '/weather-info/' + parameter + '.png';
+            weatherInfoItemImg.className = 'weather-info-item-img';
+    
+            const weatherInfoItemText = document.createElement('span');
+            weatherInfoItemText.textContent = weatherData[parameter];
+            weatherInfoItemText.className = '.weather-info-item-text';
+
+            weatherInfoItem.appendChild(weatherInfoItemImg);
+            weatherInfoItem.appendChild(weatherInfoItemText);
+            if (parameter === 'apparent_temperature') {
+                const weatherInfoItemAsterisk = document.createElement('span');
+                weatherInfoItemAsterisk.textContent = '*';
+                weatherInfoItemAsterisk.className = 'weather-info-item-asterisk';
+                weatherInfoItem.appendChild(weatherInfoItemAsterisk);
+            }
+            weatherInfo.appendChild(weatherInfoItem);
+            lastElement = weatherInfoItem;
+        }
+        if (lastElement) {
+            lastElement.classList.add('last-weather-info-item');
+        }
+        if (weatherData.hasOwnProperty('apparent_temperature')) {
+            const weatherInfoItemNote = document.createElement('div');
+            weatherInfoItemNote.textContent = '* Apparent Temperature';
+            weatherInfoItemNote.className = 'weather-info-item-note';
+            weatherInfo.appendChild(weatherInfoItemNote);
+        }
+    }
+
+    checkApiService();
+    positionWeatherIcon();
+    positionWeatherInfo();
 
     function positionWeatherIcon() {
+        const pageHeader = document.querySelector('.page-header');
         const headerHeight = pageHeader.offsetHeight;
         let topPosition;
         topPosition = headerHeight + 5;
@@ -15,9 +115,6 @@ document.addEventListener("DOMContentLoaded", function() {
         const topPosition = iconRect.bottom + 5;
         weatherInfo.style.top = `${topPosition}px`;
     }
-
-    positionWeatherIcon();
-    positionWeatherInfo();
 
     window.addEventListener('resize', () => {
         positionWeatherIcon();
@@ -33,46 +130,14 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
-    weatherIcon.querySelector('img').src = imagesBaseUrl + '/weather-icon/' + weatherData['weather_icon'];
+    const lastApiCallTimestamp = localStorage.getItem('weather-widget-api-last-call-timestamp') || 0;
+    const currentTime = Date.now();
+    const elapsedTime = currentTime - lastApiCallTimestamp;
+    const remainingTime = Math.max(0, 30 * 1000 - elapsedTime);
 
-    let lastElement;
-    
-    for (const parameter of selectedParameters) {
-        if (weatherData.hasOwnProperty(parameter)) {
-            const element = document.createElement('div');
-            element.className = 'weather-info-item';
-    
-            const icon = document.createElement('img');
-            icon.src = imagesBaseUrl + '/weather-info/' + parameter + '.png';
-            icon.className = 'weather-info-item-icon';
-    
-            const value = document.createElement('span');
-            value.textContent = weatherData[parameter];
-            value.className = 'weather-info-item-value';
-
-            element.appendChild(icon);
-            element.appendChild(value);
-
-            if (parameter === 'apparent_temperature') {
-                const note = document.createElement('span');
-                note.textContent = '*';
-                note.className = 'weather-info-item-asterisk';
-                element.appendChild(note);
-            }
-            weatherInfo.appendChild(element);
-    
-            lastElement = element;
-        }
-    }
-
-    if (lastElement) {
-        lastElement.classList.add('last-weather-info-item');
-    }
-    
-    if (weatherData.hasOwnProperty('apparent_temperature')) {
-        const note = document.createElement('div');
-        note.textContent = '* Apparent Temperature';
-        note.className = 'weather-info-item-note';
-        weatherInfo.appendChild(note);
-    }
+    setTimeout(() => {
+        fetchDataAndUpdateStorage();
+        setInterval(fetchDataAndUpdateStorage, 15 * 1000);
+        localStorage.setItem('weather-widget-api-last-call-timestamp', Date.now());
+    }, remainingTime);
 });

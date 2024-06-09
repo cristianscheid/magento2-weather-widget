@@ -3,9 +3,4 @@
         <css src="CristianScheid_WeatherWidget::css/weather-widget.css" />
         <script src="CristianScheid_WeatherWidget::js/weather-widget.js" />
     </head>
-    <body>
-        <referenceContainer name="content">
-            <block class="CristianScheid\WeatherWidget\Block\WeatherWidget" name="weather_widget" template="CristianScheid_WeatherWidget::weather_widget.phtml" cacheable="false" />
-        </referenceContainer>
-    </body>
 </page>
