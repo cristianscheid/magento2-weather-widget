@@ -31,14 +31,13 @@ class Request
         $cacheKey = 'geo_' . md5($ipAddress);
         $cacheLifetime = 1440 * 60; // 1440 minutes (24 hours)
 
-        $cachedData = $this->cache->load($cacheKey);
-        if ($cachedData) {
-            return json_decode($cachedData, true);
+        $cachedResponse = $this->cache->load($cacheKey);
+        if ($cachedResponse) {
+            return json_decode($cachedResponse, true);
         }
-
-        $url = "http://ip-api.com/json/{$ipAddress}";
-
         try {
+            $url = "http://ip-api.com/json/{$ipAddress}";
+
             $this->curl->get($url);
             $response = $this->curl->getBody();
             $responseDecoded = json_decode($response, true);
@@ -62,18 +61,19 @@ class Request
     
     public function makeRequestWeatherApi($location, $selectedParameters)
     {
-        $cacheKey = 'weather_' . md5($location['lat'] . '_' . $location['lon']);
+        $cacheKey = 'weather_' . md5($location['lat'] . '_' . $location['lon'] . '_' . $selectedParameters);
         $cacheLifetime = 30 * 60; // 15 minutes
 
         $cachedResponse = $this->cache->load($cacheKey);
         if ($cachedResponse) {
             return $cachedResponse;
-        } else {
+        }
+        try {
             $latitude = $location['lat'];
             $longitude = $location['lon'];
             $url = "https://api.open-meteo.com/v1/forecast?latitude={$latitude}&longitude={$longitude}&current=";
             $url .= 'weather_code,is_day';
-    
+
             if ($selectedParameters != '') {
                 $unwantedParametersUrl = ["location", "location,", "weather_description", "weather_description,"];
                 $parametersUrl = $selectedParameters;
@@ -82,9 +82,9 @@ class Request
                 }
                 $url .= ',' . $parametersUrl;
             }
-    
+
             $selectedParameters = explode(',', $selectedParameters);
-    
+
             if (in_array('temperature_2m', $selectedParameters)) {
                 $temperatureUnit = $this->configInterface->getTemperatureUnit();
                 switch ($temperatureUnit) {
@@ -121,28 +121,26 @@ class Request
                         break;
                 }
             }
-    
-            $url .= '&timezone=' . $location['timezone'];
-            try {
-                $this->curl->get($url);
-                $response = $this->curl->getBody();
-                $responseDecoded = json_decode($response, true);
-    
-                if (isset($responseDecoded['error']) && $responseDecoded['error'] === 'true') {
-                    $this->logger->error('API (api.open-meteo.com) returned failure: ' . $responseDecoded['reason']);
-                    return null;
-                }
-    
-                if ($response) {
-                    $this->cache->save($response, $cacheKey, [], $cacheLifetime);
-                }
 
-                return $response;
-    
-            } catch (\Exception $e) {
-                $this->logger->error('Error fetching data from API (api.open-meteo.com): ' . $e->getMessage());
+            $url .= '&timezone=' . $location['timezone'];
+            $this->curl->get($url);
+            $response = $this->curl->getBody();
+            $responseDecoded = json_decode($response, true);
+
+            if (isset($responseDecoded['error']) && $responseDecoded['error'] === 'true') {
+                $this->logger->error('API (api.open-meteo.com) returned failure: ' . $responseDecoded['reason']);
                 return null;
             }
+
+            if ($response) {
+                $this->cache->save($response, $cacheKey, [], $cacheLifetime);
+            }
+
+            return $response;
+
+        } catch (\Exception $e) {
+            $this->logger->error('Error fetching data from API (api.open-meteo.com): ' . $e->getMessage());
+            return null;
         }
     }
 }

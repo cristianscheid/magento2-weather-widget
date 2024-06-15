@@ -1,6 +1,11 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <head>
         <css src="CristianScheid_WeatherWidget::css/weather-widget.css" />
-        <script src="CristianScheid_WeatherWidget::js/weather-widget.js" />
+        <script src="CristianScheid_WeatherWidget::js/weather-widget.js" /> 
     </head>
+    <body>
+        <referenceContainer name="content">
+            <block class="CristianScheid\WeatherWidget\Block\WeatherWidget" name="weather_widget" template="CristianScheid_WeatherWidget::weather_widget.phtml" />
+        </referenceContainer>
+    </body>
 </page>

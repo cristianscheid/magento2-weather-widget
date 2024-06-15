@@ -2,4 +2,5 @@
     <preference for="CristianScheid\WeatherWidget\Api\ConfigInterface" type="CristianScheid\WeatherWidget\Model\Config" />
     <preference for="CristianScheid\WeatherWidget\Api\GeolocationInterface" type="CristianScheid\WeatherWidget\Model\Geolocation" />
     <preference for="CristianScheid\WeatherWidget\Api\WeatherInterface" type="CristianScheid\WeatherWidget\Model\Weather" />
+    <preference for="CristianScheid\WeatherWidget\Api\RequestInterface" type="CristianScheid\WeatherWidget\Model\Request" />
 </config>

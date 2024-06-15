@@ -1,0 +1,10 @@
+<?php
+
+/**
+ * @var CristianScheid\WeatherWidget\Block\WeatherWidget $block 
+ */
+$lastConfigChange = $block->getLastConfigChange();
+?>
+<script>
+    var lastConfigChange = <?php echo json_encode($lastConfigChange); ?>;
+</script>

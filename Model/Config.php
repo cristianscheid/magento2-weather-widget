@@ -11,7 +11,9 @@ class Config implements ConfigInterface
     private const XML_PATH_WEATHER_PARAMETERS = 'weather_report/general/weather_parameters';
     private const XML_PATH_TEMPERATURE_UNIT =   'weather_report/general/temperature_unit';
     private const XML_PATH_WINDSPEED_UNIT =     'weather_report/general/windspeed_unit';
-    private const XML_PATH_PRECIPITATION =      'weather_report/general/precipitation_unit';
+    private const XML_PATH_PRECIPITATION_UNIT = 'weather_report/general/precipitation_unit';
+    private const XML_PATH_LAST_CONFIG_CHANGE = 'weather_report/general/last_config_change';
+    
 
     private ScopeConfigInterface $scopeConfig;
 
@@ -57,6 +59,14 @@ class Config implements ConfigInterface
      */
     public function getPrecipitationUnit(): string
     {
-        return $this->scopeConfig->getValue(self::XML_PATH_PRECIPITATION);
+        return $this->scopeConfig->getValue(self::XML_PATH_PRECIPITATION_UNIT);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getLastConfigChange(): string
+    {
+        return $this->scopeConfig->getValue(self::XML_PATH_LAST_CONFIG_CHANGE);
     }
 }

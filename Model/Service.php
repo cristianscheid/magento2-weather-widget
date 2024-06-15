@@ -33,6 +33,8 @@ class Service
      */
     public function getData()
     {
+        $isModuleEnabled = $this->configInterface->isModuleEnabled();
+        
         $selectedParameters = explode(',', $this->configInterface->getWeatherParameters());
 
         $location = $this->geolocationInterface->getLocation();
@@ -44,6 +46,7 @@ class Service
         $success = !is_null($selectedParameters) && !is_null($location) && !is_null($weatherData);
 
         $data = [
+            'isModuleEnabled' => $isModuleEnabled,
             'selectedParameters' => $selectedParameters,
             'weatherData' => $weatherData
         ];
