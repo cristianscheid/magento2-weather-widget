@@ -30,7 +30,6 @@ class Service implements ServiceInterface
      */
     public function getData(): string
     {
-        $isModuleEnabled = $this->configInterface->isModuleEnabled();
         $selectedParameters = explode(',', $this->configInterface->getWeatherParameters());
         $location = $this->geolocationInterface->getLocation();
         $weatherData = null;
@@ -40,7 +39,6 @@ class Service implements ServiceInterface
         $success = !is_null($selectedParameters) && !is_null($location) && !is_null($weatherData);
 
         $data = [
-            'isModuleEnabled' => $isModuleEnabled,
             'selectedParameters' => $selectedParameters,
             'weatherData' => $weatherData
         ];
