@@ -2,7 +2,7 @@
 
 ## Description
 
-The Weather Widget module seamlessly integrates real-time weather data into Magento-based applications, presented in an elegant and unobtrusive manner that enriches the user experience. By fetching current weather information based on visitors' IP addresses through external APIs, users enjoy immediate access to precise updates within the application. Furthermore, the module employs efficient caching mechanisms to enhance performance and reduce API calls, ensuring timely delivery of weather details without disrupting user interaction.
+The Weather Widget module seamlessly integrates current weather data into Magento-based applications, enriching the user experience with an elegant and unobtrusive display. By using external APIs to fetch weather information based on visitors' IP addresses, users receive immediate and accurate updates. The module includes customizable parameters and dynamic icons that change with the current weather. Efficient caching mechanisms enhance performance and reduce API calls, ensuring timely and uninterrupted weather updates.
 
 ![desktop](.github/desktop.png)
 
@@ -17,7 +17,7 @@ The Weather Widget module operates on the following pages within Magento 2:
 - catalogsearch_result_index
 - cms_index_index
 
-It updates its data every 15 minutes, utilizing a dual caching mechanism to enhance performance.
+It updates its data every 15 minutes, utilizing a dual caching mechanism to enhance performance:
 
 - Server Side: captures visitor IP address and queries both geolocation and weather APIs, caching their responses. This strategy significantly reduces server load and ensures rapid data retrieval for the frontend, which is delivered through a custom REST API. Geolocation API responses are cached for 24 hours, while weather data is refreshed and cached every 15 minutes.
 
