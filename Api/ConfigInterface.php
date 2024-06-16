@@ -9,7 +9,7 @@ interface ConfigInterface
      *
      * @return bool
      */
-    public function isModuleEnabled(): bool;
+    public function isModuleEnabled(): ?bool;
 
     /**
      * Get the weather parameters
@@ -23,26 +23,34 @@ interface ConfigInterface
      *
      * @return string
      */
-    public function getTemperatureUnit(): string;
+    public function getTemperatureUnit(): ?string;
 
     /**
      * Get the wind speed unit
      *
      * @return string
      */
-    public function getWindSpeedUnit(): string;
+    public function getWindSpeedUnit(): ?string;
 
     /**
      * Get the precipitation unit
      *
      * @return string
      */
-    public function getPrecipitationUnit(): string;
+    public function getPrecipitationUnit(): ?string;
 
     /**
-     * Get last config change
+     * Get last configuration change timestamp
      *
      * @return string
      */
-    public function getLastConfigChange(): string;
+    public function getLastConfigChange(): ?string;
+
+    /**
+     * Set last configuration change timestamp
+     *
+     * @param string $value
+     * @return void
+     */
+    public function setLastConfigChange(string $value): void;
 }

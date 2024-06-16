@@ -1,31 +1,54 @@
 <?xml version="1.0"?>
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Config/etc/system_file.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Config/etc/system_file.xsd">
     <system>
-        <section id="weather_report" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+        <tab id="cristian_scheid_extensions" translate="label" sortOrder="999999">
+            <label>Cristian Scheid Extensions</label>
+        </tab>
+        <section id="weather_widget" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"
+                 showInStore="1">
             <label>Weather Widget Settings</label>
-            <tab>general</tab>
+            <tab>cristian_scheid_extensions</tab>
             <resource>CristianScheid_WeatherWidget::config</resource>
-            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
-                <label>General Settings</label>
-                <field id="enabled" translate="label" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Weather Widget Settings</label>
+                <field id="enabled" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1"
+                       showInStore="1">
                     <label>Enabled</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-                <field id="temperature_unit" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="temperature_unit" translate="label" type="select" sortOrder="20" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
                     <label>Temperature Unit</label>
                     <source_model>CristianScheid\WeatherWidget\Model\Config\Source\TemperatureUnit</source_model>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
                 </field>
-                <field id="precipitation_unit" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="precipitation_unit" translate="label" type="select" sortOrder="30" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
                     <label>Precipitation Unit</label>
                     <source_model>CristianScheid\WeatherWidget\Model\Config\Source\PrecipitationUnit</source_model>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
                 </field>
-                <field id="windspeed_unit" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="windspeed_unit" translate="label" type="select" sortOrder="40" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
                     <label>Windspeed Unit</label>
                     <source_model>CristianScheid\WeatherWidget\Model\Config\Source\WindspeedUnit</source_model>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
                 </field>
-                <field id="weather_parameters" translate="label" type="multiselect" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="weather_parameters" translate="label" type="multiselect" sortOrder="50" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
                     <label>Weather Parameters</label>
                     <source_model>CristianScheid\WeatherWidget\Model\Config\Source\WeatherParameters</source_model>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
                 </field>
             </group>
         </section>

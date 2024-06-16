@@ -3,16 +3,18 @@ require([
     'CristianScheid_WeatherWidget/js/dom'
 ], function(api, dom) {
 
+    let errorOccurred = false;
+
     async function fetchAndInitialize() {
         try {
             const response = await api.fetchDataFromApi();
             dom.createElements(response);
-            dom.positionWeatherIcon();
-            dom.positionWeatherInfo();
+            dom.positionElements();
             api.saveDataOnLocalStorage(response);
             api.saveLastApiCallTimestampOnLocalStorage();
         } catch (error) {
-            console.error('fetchAndInitialize() failed:', error);
+            console.error('weather-widget-fetchAndInitialize() failed:', error);
+            errorOccurred = true;
         }
     }
 
@@ -23,7 +25,8 @@ require([
             api.saveDataOnLocalStorage(response);
             api.saveLastApiCallTimestampOnLocalStorage();
         } catch (error) {
-            console.error('fetchAndUpdate() failed:', error);
+            console.error('weather-widget-fetchAndUpdate() failed:', error);
+            errorOccurred = true;
         }
     }
 
@@ -31,46 +34,50 @@ require([
         try {
             const response = api.getDataFromLocalStorage();
             dom.createElements(response);
-            dom.positionWeatherIcon();
-            dom.positionWeatherInfo();
+            dom.positionElements();
         } catch (error) {
-            console.error('initializeFromLocalStorage() failed:', error);
+            console.error('weather-widget-initializeFromLocalStorage() failed:', error);
+            errorOccurred = true;
         }
     }
 
     async function scheduleNextApiCall() {
-        const waitTimeApiCall = 10 * 1000; // X seconds
+        const waitTimeApiCall = 15 * 60 * 1000; // 15 minutes
         let interval = waitTimeApiCall - api.getTimeDifferenceFromLastApiCall();
         if (interval <= 0) {
             interval = 0;
         }
         setTimeout(async () => {
             await fetchAndUpdate();
-            scheduleNextApiCall();
+            if (!errorOccurred) {
+                scheduleNextApiCall();
+            }
         }, interval);
     }
 
     async function init() {
-        const storedLastConfigChange = api.getLastConfigChangeFromLocalStorage();
-        // The 'lastConfigChange' variable is injected from a PHTML file
+        // 'isModuleEnabled' & 'lastConfigChange' variables are injected from a PHTML file
         // Source: CristianScheid_WeatherWidget::weather_widget.phtml
-        switch (true) {
-            
-            case (lastConfigChange !== storedLastConfigChange):
-                await fetchAndInitialize();
-                api.saveLastConfigChangeOnLocalStorage(lastConfigChange);
-                break;
-            
-            case (lastConfigChange === storedLastConfigChange):
-                if (api.getDataFromLocalStorage()) {
-                    initializeFromLocalStorage();
-                } else {
+        if (isModuleEnabled) {
+            const storedLastConfigChange = api.getLastConfigChangeFromLocalStorage();
+            switch (true) {
+
+                case (lastConfigChange !== storedLastConfigChange):
                     await fetchAndInitialize();
-                }
-                break;
+                    api.saveLastConfigChangeOnLocalStorage(lastConfigChange);
+                    break;
+
+                case (lastConfigChange === storedLastConfigChange):
+                    if (api.getDataFromLocalStorage()) {
+                        initializeFromLocalStorage();
+                    } else {
+                        await fetchAndInitialize();
+                    }
+                    break;
+            }
+            dom.addEventListeners();
+            await scheduleNextApiCall();
         }
-        await scheduleNextApiCall();
-        dom.addEventListeners();
     }
 
     init();

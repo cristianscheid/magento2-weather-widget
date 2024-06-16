@@ -91,24 +91,9 @@ define(function() {
         weatherInfo.style.top = `${iconRect.bottom + 5}px`;
     }
 
-    function positionWeatherIcon() {
-        const pageHeader = document.querySelector('.page-header');
-        const headerHeight = pageHeader.offsetHeight;
-        const weatherIcon = document.getElementById('weather-icon');
-        weatherIcon.style.top = `${headerHeight + 5}px`;
-    }
-
-    function positionWeatherInfo() {
-        const weatherIcon = document.getElementById('weather-icon');
-        const iconRect = weatherIcon.getBoundingClientRect();
-        const weatherInfo = document.getElementById('weather-info');
-        weatherInfo.style.top = `${iconRect.bottom + 5}px`;
-    }
-
     function addEventListeners() {
         window.addEventListener('resize', () => {
-            positionWeatherIcon();
-            positionWeatherInfo();
+            positionElements();
         });
         
         const weatherIcon = document.getElementById('weather-icon');
@@ -116,7 +101,7 @@ define(function() {
             const weatherIcon = document.getElementById('weather-icon');
             const weatherInfo = document.getElementById('weather-info');
             if (weatherInfo.style.display === 'none' || weatherInfo.style.display === '') {
-                positionWeatherInfo(weatherIcon, weatherInfo);
+                positionElements();
                 weatherInfo.style.display = 'block';
             } else {
                 weatherInfo.style.display = 'none';
@@ -128,8 +113,6 @@ define(function() {
         createElements: createElements,
         updateElements: updateElements,
         positionElements: positionElements,
-        positionWeatherIcon: positionWeatherIcon,
-        positionWeatherInfo: positionWeatherInfo,
         addEventListeners: addEventListeners
     };
 });

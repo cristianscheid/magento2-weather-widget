@@ -4,7 +4,6 @@ namespace CristianScheid\WeatherWidget\Model;
 
 use CristianScheid\WeatherWidget\Api\GeolocationInterface;
 use Magento\Framework\HTTP\PhpEnvironment\RemoteAddress;
-use CristianScheid\WeatherWidget\Model\Request;
 
 class Geolocation implements GeolocationInterface
 {
@@ -13,16 +12,15 @@ class Geolocation implements GeolocationInterface
 
     public function __construct(
         RemoteAddress $remoteAddress,
-        Request $request
+        Request       $request
     ) {
         $this->remoteAddress = $remoteAddress;
         $this->request = $request;
     }
 
-    public function getLocation(): ?array
+    public function getLocation() : ?array
     {
         $visitorIpAddress = $this->remoteAddress->getRemoteAddress();
-     
         return $this->request->makeRequestGeolocationApi($visitorIpAddress);
     }
 }

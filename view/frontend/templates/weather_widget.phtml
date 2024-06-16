@@ -1,10 +1,12 @@
 <?php
 
 /**
- * @var CristianScheid\WeatherWidget\Block\WeatherWidget $block 
+ * @var CristianScheid\WeatherWidget\Block\WeatherWidget $block
  */
-$lastConfigChange = $block->getLastConfigChange();
+$isModuleEnabled = json_encode($block->isModuleEnabled());
+$lastConfigChange = json_encode($block->getLastConfigChange());
 ?>
 <script>
-    var lastConfigChange = <?php echo json_encode($lastConfigChange); ?>;
+    const isModuleEnabled = <?= $isModuleEnabled ?>;
+    const lastConfigChange = <?= $lastConfigChange ?>;
 </script>

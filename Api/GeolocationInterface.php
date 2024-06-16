@@ -9,5 +9,5 @@ interface GeolocationInterface
      *
      * @return array|null
      */
-    public function getLocation(): ?array;
+    public function getLocation() : ?array;
 }

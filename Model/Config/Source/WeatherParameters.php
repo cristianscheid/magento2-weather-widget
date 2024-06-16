@@ -1,11 +1,12 @@
 <?php
+
 namespace CristianScheid\WeatherWidget\Model\Config\Source;
 
 use Magento\Framework\Option\ArrayInterface;
 
 class WeatherParameters implements ArrayInterface
 {
-    public function toOptionArray()
+    public function toOptionArray(): array
     {
         return [
             ['value' => 'location', 'label' => __('Location')],

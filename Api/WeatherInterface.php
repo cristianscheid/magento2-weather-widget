@@ -8,7 +8,7 @@ interface WeatherInterface
      * Get weather data for the given location
      *
      * @param array $location
-     * @return array
+     * @return array|null
      */
-    public function getWeatherData($location): array;
+    public function getWeatherData(array $location): ?array;
 }

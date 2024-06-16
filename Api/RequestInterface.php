@@ -10,7 +10,7 @@ interface RequestInterface
      * @param string $ipAddress
      * @return array|null
      */
-    public function makeRequestGeolocationApi($ipAddress);
+    public function makeRequestGeolocationApi(string $ipAddress): ?array;
 
     /**
      * Make request to weather API
@@ -19,5 +19,5 @@ interface RequestInterface
      * @param string $selectedParameters
      * @return array|null
      */
-    public function makeRequestWeatherApi($location, $selectedParameters);
+    public function makeRequestWeatherApi(array $location, string $selectedParameters): ?array;
 }

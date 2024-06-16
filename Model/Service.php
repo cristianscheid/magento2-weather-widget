@@ -2,47 +2,41 @@
 
 namespace CristianScheid\WeatherWidget\Model;
 
-use CristianScheid\WeatherWidget\Api\WeatherInterface;
-use CristianScheid\WeatherWidget\Api\GeolocationInterface;
 use CristianScheid\WeatherWidget\Api\ConfigInterface;
-use Magento\Framework\View\Asset\Repository as AssetRepository;
+use CristianScheid\WeatherWidget\Api\GeolocationInterface;
+use CristianScheid\WeatherWidget\Api\ServiceInterface;
+use CristianScheid\WeatherWidget\Api\WeatherInterface;
 
-class Service
+class Service implements ServiceInterface
 {
     private WeatherInterface $weatherInterface;
     private GeolocationInterface $geolocationInterface;
     private ConfigInterface $configInterface;
-    private AssetRepository $assetRepository;
 
     public function __construct(
-        WeatherInterface $weatherInterface,
+        WeatherInterface     $weatherInterface,
         GeolocationInterface $geolocationInterface,
-        ConfigInterface  $configInterface,
-        AssetRepository $assetRepository
+        ConfigInterface      $configInterface
     ) {
         $this->weatherInterface = $weatherInterface;
         $this->geolocationInterface = $geolocationInterface;
         $this->configInterface = $configInterface;
-        $this->assetRepository = $assetRepository;
     }
 
     /**
-     * Get weather data including module status, selected parameters, weather data, and image base URL.
+     * Get weather data including module status, selected parameters, and weather data.
      *
-     * @return string JSON encoded data containing module status, selected parameters, weather data, and image base URL.
+     * @return string JSON encoded data containing module status, selected parameters, and weather data.
      */
-    public function getData()
+    public function getData(): string
     {
         $isModuleEnabled = $this->configInterface->isModuleEnabled();
-        
         $selectedParameters = explode(',', $this->configInterface->getWeatherParameters());
-
         $location = $this->geolocationInterface->getLocation();
-
+        $weatherData = null;
         if ($location) {
-            $weatherData = $this->weatherInterface->getWeatherData($location);  
+            $weatherData = $this->weatherInterface->getWeatherData($location);
         }
-
         $success = !is_null($selectedParameters) && !is_null($location) && !is_null($weatherData);
 
         $data = [

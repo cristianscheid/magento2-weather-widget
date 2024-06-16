@@ -11,15 +11,20 @@ class WeatherWidget extends Template
     private ConfigInterface $configInterface;
 
     public function __construct(
-        ConfigInterface  $configInterface,
-        Context     $context,
-        array       $data = []
+        ConfigInterface $configInterface,
+        Context         $context,
+        array           $data = []
     ) {
-        $this->configInterface = $configInterface;
         parent::__construct($context, $data);
+        $this->configInterface = $configInterface;
     }
 
-    public function getLastConfigChange()
+    public function isModuleEnabled(): ?bool
+    {
+        return $this->configInterface->isModuleEnabled();
+    }
+
+    public function getLastConfigChange(): ?string
     {
         return $this->configInterface->getLastConfigChange();
     }

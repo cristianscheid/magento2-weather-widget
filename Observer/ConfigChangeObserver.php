@@ -1,45 +1,35 @@
 <?php
+
 namespace CristianScheid\WeatherWidget\Observer;
 
+use CristianScheid\WeatherWidget\Api\ConfigInterface;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
-use Magento\Framework\App\Config\Storage\WriterInterface;
-use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\App\Cache\TypeListInterface;
 use Magento\Framework\App\Cache\Frontend\Pool;
 
 class ConfigChangeObserver implements ObserverInterface
 {
-    protected $configWriter;
-    protected $scopeConfig;
-    protected $cacheTypeList;
-    protected $cacheFrontendPool;
+    private ConfigInterface $configInterface;
+    private TypeListInterface $cacheTypeList;
+    private Pool $cacheFrontendPool;
 
     public function __construct(
-        WriterInterface $configWriter,
-        ScopeConfigInterface $scopeConfig,
-        TypeListInterface $cacheTypeList,
-        Pool $cacheFrontendPool
+        ConfigInterface      $configInterface,
+        TypeListInterface    $cacheTypeList,
+        Pool                 $cacheFrontendPool
 
     ) {
-        $this->configWriter = $configWriter;
-        $this->scopeConfig = $scopeConfig;
+        $this->configInterface = $configInterface;
         $this->cacheTypeList = $cacheTypeList;
         $this->cacheFrontendPool = $cacheFrontendPool;
     }
 
-    public function execute(Observer $observer)
+    public function execute(Observer $observer): void
     {
-        $this->configWriter->save(
-            'weather_report/general/last_config_change',
-            date('Y-m-d H:i:s'),
-            ScopeConfigInterface::SCOPE_TYPE_DEFAULT,
-            0
-        );
-
+        $this->configInterface->setLastConfigChange(date('Y-m-d H:i:s'));
         $cacheTypeCode = 'block_html';
         $this->cacheTypeList->cleanType($cacheTypeCode);
-
         foreach ($this->cacheFrontendPool as $cacheFrontend) {
             $cacheFrontend->getBackend()->clean();
         }

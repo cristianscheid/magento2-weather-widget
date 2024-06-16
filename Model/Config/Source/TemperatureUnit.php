@@ -6,7 +6,7 @@ use Magento\Framework\Option\ArrayInterface;
 
 class TemperatureUnit implements ArrayInterface
 {
-    public function toOptionArray()
+    public function toOptionArray(): array
     {
         return [
             ['value' => 'celsius', 'label' => __('Celsius °C')],

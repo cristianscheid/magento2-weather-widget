@@ -6,7 +6,7 @@ use Magento\Framework\Option\ArrayInterface;
 
 class WindspeedUnit implements ArrayInterface
 {
-    public function toOptionArray()
+    public function toOptionArray(): array
     {
         return [
             ['value' => 'kmh', 'label' => __('Km/h')],

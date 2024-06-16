@@ -16,7 +16,7 @@ define(function() {
             console.log(getCurrentTime());
             return response;
         } else {
-            console.error('fetchDataFromApi() failed: ', responseRaw.statusText);
+            console.error('weather-widget-fetchDataFromApi() failed: ', responseRaw.statusText);
         }
     }
 
@@ -57,7 +57,6 @@ define(function() {
         saveLastConfigChangeOnLocalStorage: saveLastConfigChangeOnLocalStorage,
         getLastConfigChangeFromLocalStorage: getLastConfigChangeFromLocalStorage,
         saveLastApiCallTimestampOnLocalStorage: saveLastApiCallTimestampOnLocalStorage,
-        getLastApiCallTimestampFromLocalStorage: getLastApiCallTimestampFromLocalStorage,
         getTimeDifferenceFromLastApiCall: getTimeDifferenceFromLastApiCall
     };
 });

@@ -9,29 +9,30 @@ use Magento\Framework\HTTP\Client\Curl;
 
 class Request
 {
-    private CacheInterface $cache;
+    private CacheInterface $cacheInterface;
     private Curl $curl;
     private ConfigInterface $configInterface;
     private CustomLogger $logger;
 
     public function __construct(
-        CacheInterface $cache,
-        Curl $curl,
+        CacheInterface  $cacheInterface,
+        Curl            $curl,
         ConfigInterface $configInterface,
-        CustomLogger $logger
+        CustomLogger    $logger
     ) {
-        $this->cache = $cache;
+        $this->cacheInterface = $cacheInterface;
         $this->curl = $curl;
         $this->configInterface = $configInterface;
         $this->logger = $logger;
     }
 
-    public function makeRequestGeolocationApi($ipAddress) {
+    public function makeRequestGeolocationApi($ipAddress): ?array
+    {
 
         $cacheKey = 'geo_' . md5($ipAddress);
         $cacheLifetime = 1440 * 60; // 1440 minutes (24 hours)
 
-        $cachedResponse = $this->cache->load($cacheKey);
+        $cachedResponse = $this->cacheInterface->load($cacheKey);
         if ($cachedResponse) {
             return json_decode($cachedResponse, true);
         }
@@ -48,25 +49,25 @@ class Request
             }
 
             if ($response) {
-                $this->cache->save($response, $cacheKey, [], $cacheLifetime);
+                $this->cacheInterface->save($response, $cacheKey, [], $cacheLifetime);
             }
 
             return $responseDecoded;
-            
+
         } catch (\Exception $e) {
-            $this->logger->error('Error fetching data from API (ip-api.com): ' . $e->getMessage());
+            $this->logger->error('makeRequestGeolocationApi() failed ' . $e->getMessage());
             return null;
         }
     }
-    
-    public function makeRequestWeatherApi($location, $selectedParameters)
+
+    public function makeRequestWeatherApi($location, $selectedParameters): ?array
     {
         $cacheKey = 'weather_' . md5($location['lat'] . '_' . $location['lon'] . '_' . $selectedParameters);
-        $cacheLifetime = 30 * 60; // 15 minutes
+        $cacheLifetime = 15 * 60; // 15 minutes
 
-        $cachedResponse = $this->cache->load($cacheKey);
+        $cachedResponse = $this->cacheInterface->load($cacheKey);
         if ($cachedResponse) {
-            return $cachedResponse;
+            return json_decode($cachedResponse, true);
         }
         try {
             $latitude = $location['lat'];
@@ -133,13 +134,13 @@ class Request
             }
 
             if ($response) {
-                $this->cache->save($response, $cacheKey, [], $cacheLifetime);
+                $this->cacheInterface->save($response, $cacheKey, [], $cacheLifetime);
             }
 
-            return $response;
+            return $responseDecoded;
 
         } catch (\Exception $e) {
-            $this->logger->error('Error fetching data from API (api.open-meteo.com): ' . $e->getMessage());
+            $this->logger->error('makeRequestWeatherApi() failed: ' . $e->getMessage());
             return null;
         }
     }

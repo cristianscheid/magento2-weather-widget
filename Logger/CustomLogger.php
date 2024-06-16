@@ -8,7 +8,7 @@ use Monolog\Logger;
 class CustomLogger extends Logger
 {
 
-    private $fileName;
+    private string $fileName;
 
     public function __construct(
         $name = 'weather_widget',

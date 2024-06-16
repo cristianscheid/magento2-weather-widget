@@ -6,7 +6,7 @@ use Magento\Framework\Option\ArrayInterface;
 
 class PrecipitationUnit implements ArrayInterface
 {
-    public function toOptionArray()
+    public function toOptionArray(): array
     {
         return [
             ['value' => 'mm', 'label' => __('Millimeter')],
