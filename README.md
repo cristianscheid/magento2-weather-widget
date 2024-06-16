@@ -75,4 +75,4 @@ To configure the module, navigate to the store's admin panel and access `Stores`
 
 ![config](.github/config.png)
 
-Once you enable the module by setting `Enabled` to `Yes`, configuration options will appear. Simply choose your preferred measurement units and select the parameters you want displayed on the widget. After you've configured everything, click `Save Config` to apply your settings.
+Once you enable the module by setting `Enabled` to `Yes`, configuration options will appear. Simply choose your preferred measurement units and select the parameters you want displayed on the widget. After you've configured everything, click `Save Config` to apply your settings. Finally, go to the frontend page of your Magento store and refresh the page to see the Weather Widget in action.
