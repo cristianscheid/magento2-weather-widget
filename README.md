@@ -12,7 +12,7 @@ The Weather Widget module provides weather data and geolocation information for 
 
 The Weather Widget module efficiently updates its data every 15 minutes, utilizing a dual caching mechanism to enhance performance.
 
-- Server Side: captures visitor IP addresses and queries both geolocation and weather APIs, caching their responses. This strategy significantly reduces server load and ensures rapid data retrieval for the frontend. Cached data is delivered to the frontend through a custom REST API. Geolocation API responses are cached for 24 hours, while weather data is refreshed and cached every 15 minutes.
+- Server Side: captures visitor IP address and queries both geolocation and weather APIs, caching their responses. This strategy significantly reduces server load and ensures rapid data retrieval for the frontend, which is delivered through a custom REST API. Geolocation API responses are cached for 24 hours, while weather data is refreshed and cached every 15 minutes.
 
 - Client Side: utilizing browser local storage, the module stores the API response from Magento custom REST API and updates this data every 15 minutes. Even if users clear their local storage, switch to anonymous browsing tabs, or change browsers, the backend retains previously stored responses from external APIs. This eliminates the need for repeated API calls, providing users with a seamless and uninterrupted experience.
 
@@ -25,7 +25,7 @@ This module was developed for educational purposes and is intended for non-comme
 - [IP-API](https://ip-api.com/docs/) (for geolocation based on IP)
 - [Open-Meteo API](https://open-meteo.com/en/docs) (for weather data)
 
-Please ensure that your use of this module complies with the usage policies of these APIs. If you are interested in using this module for commercial purposes, feel free to reach out to me on [LinkedIn](https://www.linkedin.com/in/cristian-scheid/). I can adapt the module to work with the commercial versions of these APIs, including adding fields to the admin panel for entering API credentials.
+Please ensure that your use of this module complies with the usage policies of these APIs. If you are interested in using this module for commercial purposes, feel free to reach out to me on [LinkedIn](https://www.linkedin.com/in/cristian-scheid/). I can adapt the module to work with the commercial versions of these APIs, including fields on the admin panel for entering API credentials.
 
 ## Installation
 
