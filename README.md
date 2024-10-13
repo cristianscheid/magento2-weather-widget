@@ -63,7 +63,13 @@ To get started with this project, follow the steps below:
 
 ## Usage
 
-To configure the module, navigate to the store's admin panel and access `Stores` > `Configuration` > `Cristian Scheid Extensions` > `Weather Widget Settings`. You should see something like this:
+To configure the module, navigate to the store's admin panel and access:
+
+```
+Stores > Configuration > Cristian Scheid Extensions > Weather Widget Settings
+```
+
+You should see something like this:
 
 ![config](.github/config.png)
 
@@ -75,10 +81,10 @@ Finally, go to the frontend of your Magento store and refresh the page to see th
 
 The Weather Widget is shown on the following pages within Magento 2:
 
-- `catalog_category_view`
-- `catalog_product_view`
-- `catalogsearch_result_index`
-- `cms_index_index`
+- CMS Homepage (`cms_index_index`)
+- Product View Page (`catalog_product_view`)
+- Category View Page (`catalog_category_view`)
+- Catalog Search Results Page (`catalogsearch_result_index`)
 
 ### Data Update Mechanism
 
