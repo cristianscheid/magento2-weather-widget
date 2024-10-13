@@ -46,7 +46,7 @@ To get started with this project, follow the steps below:
       <Magento_Root_Directory>/app/code/CristianScheid/WeatherWidget/
       ```
 
-    > Replace `<Magento_Root_Directory>` with the path to your Magento installation root directory. You will need to create the `/CristianScheid/WeatherWidget/` directory.
+    > Replace `<Magento_Root_Directory>` with the path to your Magento installation root directory. You will need to create the `CristianScheid/WeatherWidget/` directory.
 
 3.  **Module activation**
 
