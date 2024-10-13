@@ -2,77 +2,99 @@
 
 ## Description
 
-The Weather Widget module seamlessly integrates current weather data into Magento-based applications, enriching the user experience with an elegant and unobtrusive display. By using external APIs to fetch weather information based on visitors' IP addresses, users receive immediate and accurate updates. The module includes customizable parameters and dynamic icons that change with the current weather. Efficient caching mechanisms enhance performance and reduce API calls, ensuring timely and uninterrupted weather updates.
+The Weather Widget module seamlessly integrates real-time weather data into Magento 2 applications, enhancing the user experience with an elegant, customizable display. Using external APIs to fetch weather details based on visitors' IP addresses, it provides immediate, accurate updates with dynamic icons that reflect current conditions. Efficient caching optimizes performance, reducing API calls and ensuring uninterrupted weather updates.
+
+### Features
+
+- Auto-refreshing weather display with updates every 15 minutes.
+- Dynamic weather icons reflecting current conditions.
+- Customizable settings for units and displayed parameters.
+- Dual caching mechanism (server and client-side) to optimize performance and reduce API requests.
+- Integration with IP-based geolocation and weather data APIs.
+
+## Built With
+
+![PHP](https://img.shields.io/badge/PHP-8.3-gray?logo=php&style=for-the-badge)
+![Magento](https://img.shields.io/badge/Magento-2.4.7-gray?logo=magento&style=for-the-badge)
+![MariaDB](https://img.shields.io/badge/MariaDB-10.6-gray?logo=mariadb&style=for-the-badge)
+
+![JavaScript](https://img.shields.io/badge/JavaScript-ES6-gray?logo=javascript&style=for-the-badge)
+![CSS3](https://img.shields.io/badge/CSS3-gray?logo=css3&style=for-the-badge)
+
+## Visuals
 
 ![desktop](.github/desktop.png)
 
 ![mobile](.github/mobile.png)
 
-## Operation
-
-The Weather Widget module operates on the following pages within Magento 2:
-
-- catalog_category_view
-- catalog_product_view
-- catalogsearch_result_index
-- cms_index_index
-
-It updates its data every 15 minutes, utilizing a dual caching mechanism to enhance performance:
-
-- Server Side: captures visitor IP address and queries both geolocation and weather APIs, caching their responses. This strategy significantly reduces server load and ensures rapid data retrieval for the frontend, which is delivered through a custom REST API. Geolocation API responses are cached for 24 hours, while weather data is refreshed and cached every 15 minutes.
-
-- Client Side: utilizing browser local storage, the module stores the API response from Magento custom REST API and updates this data every 15 minutes. Even if users clear their local storage, switch to anonymous browsing tabs, or change browsers, the backend retains previously stored responses from external APIs. This eliminates the need for repeated API calls, providing users with a seamless and uninterrupted experience.
-
-When data is updated, there is no need to refresh the browser, ensuring that users always have access to the latest weather information without any manual intervention.
-
-## Disclaimer
-
-This module was developed for educational purposes and is intended for non-commercial use only. The module leverages the following APIs, which are free for non-commercial use:
-
-- [IP-API](https://ip-api.com/docs/) (for geolocation based on IP)
-- [Open-Meteo API](https://open-meteo.com/en/docs) (for weather data)
-
-Please ensure that your use of this module complies with the usage policies of these APIs. If you are interested in using this module for commercial purposes, feel free to reach out to me on [LinkedIn](https://www.linkedin.com/in/cristian-scheid/). I can adapt the module to work with the commercial versions of these APIs, including fields on the admin panel for entering API credentials.
-
 ## Installation
 
-### Download
+To get started with this project, follow the steps below:
 
-To download this module, select one of the options provided below:
+1.  **Clone the repository**
 
-1. Clone the repository using Git:
     ```
     git clone https://github.com/cristianscheid/magento2-weather-widget.git
     ```
 
-2. Download it as a ZIP file:
-    - Go to [https://github.com/cristianscheid/magento2-weather-widget](https://github.com/cristianscheid/magento2-weather-widget)
-    - Click on `Code` > `Download ZIP`
+2.  **Copy files to the Magento directory**
 
-### Folder structure
+    - After cloning, you’ll have a folder named `magento2-weather-widget`.
+    - Copy its contents to the following directory in your Magento installation:
 
-Once you have finished the download, you should have a `magento2-weather-widget` or `magento2-weather-widget-main` folder, dependening on the download option you chose. Copy its contents to the following directory:
+    ```
+    <Magento_Root_Directory>/app/code/CristianScheid/WeatherWidget/
+    ```
 
-`MagentoRootDir/app/code/CristianScheid/WeatherWidget/`
+    > Replace `<Magento_Root_Directory>` with the path to your Magento installation root directory. You will need to create the `CristianScheid/WeatherWidget/` directory.
 
-- Replace `MagentoRootDir` with the root directory of your Magento installation.
-- Create the `CristianScheid` folder.
-- Within the `CristianScheid` folder, create a `WeatherWidget` folder and paste the downloaded folder contents there.
+3.  **Module activation**
 
-### Module activation
+    - From the root directory of your Magento installation, run:
 
-From the root directory of your Magento installation, run:
+    ```
+    bin/magento setup:upgrade &&
+    bin/magento setup:di:compile &&
+    bin/magento setup:static-content:deploy -f &&
+    bin/magento c:c && bin/magento c:f
+    ```
 
-    bin/magento module:enable CristianScheid_WeatherWidget
-    bin/magento setup:upgrade
-    bin/magento cache:clean
+    - After that, the module should be activated and ready to use.
 
-After that, the module should be activated and ready to use.
-
-## Configuration
+## Usage
 
 To configure the module, navigate to the store's admin panel and access `Stores` > `Configuration` > `Cristian Scheid Extensions` > `Weather Widget Settings`. You should see something like this:
 
 ![config](.github/config.png)
 
-Once you enable the module by setting `Enabled` to `Yes`, configuration options will appear. Simply choose your preferred measurement units and select the parameters you want displayed on the widget. After you've configured everything, click `Save Config` to apply your settings. Finally, go to the frontend page of your Magento store and refresh the page to see the Weather Widget in action.
+1. Enable the module by setting `Enabled` to `Yes`.
+2. Coose your preferred measurement units and select the parameters to display on the widget.
+3. Click `Save Config` to apply your settings.
+
+Finally, go to the frontend of your Magento store and refresh the page to see the Weather Widget in action.
+
+The Weather Widget is shown on the following pages within Magento 2:
+
+- `catalog_category_view`
+- `catalog_product_view`
+- `catalogsearch_result_index`
+- `cms_index_index`
+
+### Data Update Mechanism
+
+The widget updates its data every 15 minutes using a dual caching mechanism for enhanced performance:
+
+- **Server Side:** Captures the visitor's IP address and queries both geolocation and weather APIs, caching their responses to reduce server load. Geolocation API responses are cached for 24 hours, while weather data is refreshed every 15 minutes.
+
+- **Client Side:** Uses browser local storage to store the API response from the Magento custom REST API, updating this data every 15 minutes. If users clear their local storage or switch browsers, the backend retains previously stored responses, ensuring seamless access to weather data without repeated API calls.
+
+When data is updated, there’s no need to refresh the browser, allowing users to access the latest weather information automatically.
+
+## Important Notes
+
+This module was developed for educational purposes and is intended for non-commercial use only. It leverages the following APIs, which are free for non-commercial use:
+
+- [IP-API](https://ip-api.com/docs/) (for geolocation based on IP)
+- [Open-Meteo API](https://open-meteo.com/en/docs) (for weather data)
+
+Please ensure that your use of this module complies with the usage policies of these APIs.
