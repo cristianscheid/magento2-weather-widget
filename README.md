@@ -42,9 +42,9 @@ To get started with this project, follow the steps below:
     - After cloning, you’ll have a folder named `magento2-weather-widget`.
     - Copy its contents to the following directory in your Magento installation:
 
-    ```
-    <Magento_Root_Directory>/app/code/CristianScheid/WeatherWidget/
-    ```
+      ```
+      <Magento_Root_Directory>/app/code/CristianScheid/WeatherWidget/
+      ```
 
     > Replace `<Magento_Root_Directory>` with the path to your Magento installation root directory. You will need to create the `CristianScheid/WeatherWidget/` directory.
 
@@ -52,12 +52,12 @@ To get started with this project, follow the steps below:
 
     - From the root directory of your Magento installation, run:
 
-    ```
-    bin/magento setup:upgrade &&
-    bin/magento setup:di:compile &&
-    bin/magento setup:static-content:deploy -f &&
-    bin/magento c:c && bin/magento c:f
-    ```
+      ```
+      bin/magento setup:upgrade &&
+      bin/magento setup:di:compile &&
+      bin/magento setup:static-content:deploy -f &&
+      bin/magento c:c && bin/magento c:f
+      ```
 
     - After that, the module should be activated and ready to use.
 
