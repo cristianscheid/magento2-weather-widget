@@ -1,4 +1,4 @@
-# Magento 2 - Weather Widget Module
+# Magento 2 - Weather Widget
 
 ## Description
 
