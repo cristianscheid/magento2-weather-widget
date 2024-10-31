@@ -15,9 +15,20 @@ class Config implements ConfigInterface
     private const XML_PATH_PRECIPITATION_UNIT = 'weather_widget/general/precipitation_unit';
     private const XML_PATH_LAST_CONFIG_CHANGE = 'weather_widget/general/last_config_change';
 
+    /**
+     * @var ScopeConfigInterface
+     */
     private ScopeConfigInterface $scopeConfig;
+
+    /**
+     * @var WriterInterface
+     */
     private WriterInterface $configWriter;
 
+    /**
+     * @param ScopeConfigInterface $scopeConfig
+     * @param WriterInterface $configWriter
+     */
     public function __construct(
         ScopeConfigInterface $scopeConfig,
         WriterInterface      $configWriter

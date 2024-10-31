@@ -6,6 +6,11 @@ use Magento\Framework\Option\ArrayInterface;
 
 class TemperatureUnit implements ArrayInterface
 {
+    /**
+     * Retrieve an array of options for temperature units.
+     *
+     * @return array
+     */
     public function toOptionArray(): array
     {
         return [

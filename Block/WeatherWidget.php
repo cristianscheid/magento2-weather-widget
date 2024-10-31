@@ -8,8 +8,16 @@ use Magento\Framework\View\Element\Template\Context;
 
 class WeatherWidget extends Template
 {
+    /**
+     * @var ConfigInterface
+     */
     private ConfigInterface $configInterface;
 
+    /**
+     * @param ConfigInterface $configInterface
+     * @param Context $context
+     * @param array $data
+     */
     public function __construct(
         ConfigInterface $configInterface,
         Context         $context,
@@ -19,11 +27,21 @@ class WeatherWidget extends Template
         $this->configInterface = $configInterface;
     }
 
+    /**
+     * Check if the module is enabled
+     *
+     * @return bool
+     */
     public function isModuleEnabled(): ?bool
     {
         return $this->configInterface->isModuleEnabled();
     }
-
+    
+    /**
+     * Get last configuration change timestamp
+     *
+     * @return string
+     */
     public function getLastConfigChange(): ?string
     {
         return $this->configInterface->getLastConfigChange();

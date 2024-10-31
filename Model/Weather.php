@@ -9,11 +9,32 @@ use CristianScheid\WeatherWidget\Helper\WeatherUtils;
 
 class Weather implements WeatherInterface
 {
+    /**
+     * @var Request
+     */
     private Request $request;
+
+    /**
+     * @var ConfigInterface
+     */
     private ConfigInterface $configInterface;
+
+    /**
+     * @var WeatherUtils
+     */
     private WeatherUtils $weatherUtils;
+
+    /**
+     * @var CustomLogger
+     */
     private CustomLogger $logger;
 
+    /**
+     * @param Request $request
+     * @param ConfigInterface $configInterface
+     * @param WeatherUtils $weatherUtils
+     * @param CustomLogger $logger
+     */
     public function __construct(
         Request         $request,
         ConfigInterface $configInterface,

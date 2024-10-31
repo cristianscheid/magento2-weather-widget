@@ -6,6 +6,11 @@ use Magento\Framework\Option\ArrayInterface;
 
 class PrecipitationUnit implements ArrayInterface
 {
+    /**
+     * Retrieve an array of options for precipitation units.
+     *
+     * @return array
+     */
     public function toOptionArray(): array
     {
         return [

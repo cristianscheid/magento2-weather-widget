@@ -4,6 +4,9 @@ namespace CristianScheid\WeatherWidget\Helper;
 
 class WeatherUtils
 {
+    /**
+     * @var array
+     */
     private array $weatherCodeMapping = [
         0 => ['label' => 'Clear sky', 'icon' => 'clear.png'],
         1 => ['label' => 'Mainly clear', 'icon' => 'clear.png'],
@@ -35,14 +38,27 @@ class WeatherUtils
         99 => ['label' => 'Thunderstorm with heavy hail', 'icon' => 'thunder.png']
     ];
 
+    /**
+     * Retrieve the weather description based on the provided weather code.
+     *
+     * @param string $code
+     * @return string
+     */
     public function getWeatherDescription($code): string
     {
         return $this->weatherCodeMapping[$code]['label'] ?? 'Unknown weather code';
     }
 
+    /**
+     * Get the weather icon based on the provided weather code and day/night status.
+     *
+     * @param int $code
+     * @param int $isDay
+     * @return string
+     */
     public function getWeatherIcon($code, $isDay): string
     {
-        if (in_array($code, ['0', '1', '2'])) {
+        if (in_array($code, [0, 1, 2])) {
             if ($isDay) {
                 return 'day_' . $this->weatherCodeMapping[$code]['icon'] ?? 'unknown.png';
             } else {
@@ -52,6 +68,12 @@ class WeatherUtils
         return $this->weatherCodeMapping[$code]['icon'] ?? 'unknown.png';
     }
 
+    /**
+     * Get the label for the specified temperature unit.
+     *
+     * @param string $unit
+     * @return string
+     */
     public function getTemperatureUnitLabel($unit): string
     {
         switch ($unit) {
@@ -64,6 +86,12 @@ class WeatherUtils
         }
     }
 
+    /**
+     * Get the label for the specified precipitation unit.
+     *
+     * @param string $unit
+     * @return string
+     */
     public function getPrecipitationUnitLabel($unit): string
     {
         switch ($unit) {
@@ -76,6 +104,12 @@ class WeatherUtils
         }
     }
 
+    /**
+     * Get the label for the specified wind speed unit.
+     *
+     * @param string $unit
+     * @return string
+     */
     public function getWindSpeedUnitLabel($unit): string
     {
         switch ($unit) {

@@ -9,10 +9,26 @@ use CristianScheid\WeatherWidget\Api\WeatherInterface;
 
 class Service implements ServiceInterface
 {
+    /**
+     * @var WeatherInterface
+     */
     private WeatherInterface $weatherInterface;
+
+    /**
+     * @var GeolocationInterface
+     */
     private GeolocationInterface $geolocationInterface;
+
+    /**
+     * @var ConfigInterface
+     */
     private ConfigInterface $configInterface;
 
+    /**
+     * @param WeatherInterface $weatherInterface
+     * @param GeolocationInterface $geolocationInterface
+     * @param ConfigInterface $configInterface
+     */
     public function __construct(
         WeatherInterface     $weatherInterface,
         GeolocationInterface $geolocationInterface,
@@ -24,9 +40,7 @@ class Service implements ServiceInterface
     }
 
     /**
-     * Get weather data including module status, selected parameters, and weather data.
-     *
-     * @return string JSON encoded data containing module status, selected parameters, and weather data.
+     * @inheritdoc
      */
     public function getData(): string
     {

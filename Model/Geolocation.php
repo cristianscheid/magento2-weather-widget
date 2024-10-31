@@ -7,9 +7,20 @@ use Magento\Framework\HTTP\PhpEnvironment\RemoteAddress;
 
 class Geolocation implements GeolocationInterface
 {
+    /**
+     * @var RemoteAddress
+     */
     private RemoteAddress $remoteAddress;
+
+    /**
+     * @var Request
+     */
     private Request $request;
 
+    /**
+     * @param RemoteAddress $remoteAddress
+     * @param Request $request
+     */
     public function __construct(
         RemoteAddress $remoteAddress,
         Request       $request
@@ -18,6 +29,9 @@ class Geolocation implements GeolocationInterface
         $this->request = $request;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getLocation(): ?array
     {
         $visitorIpAddress = $this->remoteAddress->getRemoteAddress();

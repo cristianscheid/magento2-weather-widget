@@ -9,11 +9,32 @@ use Magento\Framework\HTTP\Client\Curl;
 
 class Request
 {
+    /**
+     * @var CacheInterface
+     */
     private CacheInterface $cacheInterface;
+
+    /**
+     * @var Curl
+     */
     private Curl $curl;
+
+    /**
+     * @var ConfigInterface
+     */
     private ConfigInterface $configInterface;
+
+    /**
+     * @var CustomLogger
+     */
     private CustomLogger $logger;
 
+    /**
+     * @param CacheInterface $cacheInterface
+     * @param Curl $curl
+     * @param ConfigInterface $configInterface
+     * @param CustomLogger $logger
+     */
     public function __construct(
         CacheInterface  $cacheInterface,
         Curl            $curl,
@@ -26,6 +47,9 @@ class Request
         $this->logger = $logger;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function makeRequestGeolocationApi($ipAddress): ?array
     {
         $cacheKey = 'geo_' . md5($ipAddress);
@@ -74,6 +98,9 @@ class Request
         }
     }
 
+    /**
+     * @inheritdoc
+     */
     public function makeRequestWeatherApi($location, $selectedParameters): ?array
     {
         $cacheKey = 'weather_' . md5($location['lat'] . '_' . $location['lon'] . '_' . $selectedParameters);

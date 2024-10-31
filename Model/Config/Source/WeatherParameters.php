@@ -6,6 +6,11 @@ use Magento\Framework\Option\ArrayInterface;
 
 class WeatherParameters implements ArrayInterface
 {
+    /**
+     * Retrieve an array of options for weather parameters.
+     *
+     * @return array
+     */
     public function toOptionArray(): array
     {
         return [

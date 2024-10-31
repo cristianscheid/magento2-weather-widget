@@ -6,6 +6,11 @@ use Magento\Framework\Option\ArrayInterface;
 
 class WindspeedUnit implements ArrayInterface
 {
+    /**
+     * Retrieve an array of options for wind speed units.
+     *
+     * @return array
+     */
     public function toOptionArray(): array
     {
         return [

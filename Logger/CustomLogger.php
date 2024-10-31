@@ -7,8 +7,15 @@ use Monolog\Logger;
 
 class CustomLogger extends Logger
 {
+    /**
+     * @var string
+     */
     private string $fileName;
 
+    /**
+     * @param string $name
+     * @param string $fileName
+     */
     public function __construct(
         $name = 'weather_widget',
         $fileName = 'cristian_scheid_weather_widget.log'
