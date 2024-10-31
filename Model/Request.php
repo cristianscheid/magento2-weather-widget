@@ -67,7 +67,10 @@ class Request
             $responseDecoded = json_decode($response, true);
 
             if (isset($responseDecoded['status']) && $responseDecoded['status'] === 'fail') {
-                $this->logger->info('API (ip-api.com) returned failure: ' . $responseDecoded['message'] . '. Attempting to retrieve location using real IP address.');
+                $this->logger->info(
+                    'API (ip-api.com) returned failure: ' . $responseDecoded['message'] .
+                        '. Attempting to retrieve location using real IP address.'
+                );
                 $realIpAddress = file_get_contents("http://ipecho.net/plain");
 
                 if ($realIpAddress) {
@@ -78,7 +81,10 @@ class Request
                     $responseDecoded = json_decode($response, true);
 
                     if (isset($responseDecoded['status']) && $responseDecoded['status'] === 'fail') {
-                        $this->logger->error('The second attempt with the real IP address also failed: ' . $responseDecoded['message']);
+                        $this->logger->error(
+                            'The second attempt with the real IP address also failed: ' .
+                                $responseDecoded['message']
+                        );
                         return null;
                     }
                 } else {

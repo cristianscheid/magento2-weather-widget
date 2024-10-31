@@ -65,7 +65,9 @@ class Weather implements WeatherInterface
             foreach ($selectedParameters as &$parameter) {
                 switch ($parameter) {
                     case 'location':
-                        $weatherData[$parameter] = $location['city'] . ', ' . $location['region'] . ', ' . $location['country'];
+                        $weatherData[$parameter] = $location['city'] . ', '
+                            . $location['region'] . ', '
+                            . $location['country'];
                         break;
                     case 'weather_description':
                         $weatherData[$parameter] = $this->weatherUtils->getWeatherDescription($weatherCode);
@@ -73,12 +75,14 @@ class Weather implements WeatherInterface
                     case 'temperature_2m':
                         $weatherData[$parameter] = $response['current'][$parameter];
                         $temperatureUnit = $this->configInterface->getTemperatureUnit();
-                        $weatherData[$parameter] .= ' ' . $this->weatherUtils->getTemperatureUnitLabel($temperatureUnit);
+                        $weatherData[$parameter] .= ' ' .
+                            $this->weatherUtils->getTemperatureUnitLabel($temperatureUnit);
                         break;
                     case 'apparent_temperature':
                         $weatherData[$parameter] = $response['current'][$parameter];
                         $temperatureUnit = $this->configInterface->getTemperatureUnit();
-                        $weatherData[$parameter] .= ' ' . $this->weatherUtils->getTemperatureUnitLabel($temperatureUnit);
+                        $weatherData[$parameter] .= ' ' .
+                            $this->weatherUtils->getTemperatureUnitLabel($temperatureUnit);
                         break;
                     case 'relative_humidity_2m':
                         $weatherData[$parameter] = $response['current'][$parameter];
@@ -87,12 +91,14 @@ class Weather implements WeatherInterface
                     case 'precipitation':
                         $weatherData[$parameter] = $response['current'][$parameter];
                         $precipitationUnit = $this->configInterface->getPrecipitationUnit();
-                        $weatherData[$parameter] .= ' ' . $this->weatherUtils->getPrecipitationUnitLabel($precipitationUnit);
+                        $weatherData[$parameter] .= ' ' .
+                            $this->weatherUtils->getPrecipitationUnitLabel($precipitationUnit);
                         break;
                     case 'wind_speed_10m':
                         $windspeedUnit = $this->configInterface->getWindSpeedUnit();
                         $weatherData[$parameter] = $response['current'][$parameter];
-                        $weatherData[$parameter] .= ' ' . $this->weatherUtils->getWindSpeedUnitLabel($windspeedUnit);
+                        $weatherData[$parameter] .= ' ' .
+                            $this->weatherUtils->getWindSpeedUnitLabel($windspeedUnit);
                         break;
                     case 'wind_direction_10m':
                         $weatherData[$parameter] = $response['current'][$parameter];

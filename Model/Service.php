@@ -50,7 +50,7 @@ class Service implements ServiceInterface
         if ($location) {
             $weatherData = $this->weatherInterface->getWeatherData($location);
         }
-        $success = !is_null($selectedParameters) && !is_null($location) && !is_null($weatherData);
+        $success = $selectedParameters !== null && $location !== null && $weatherData !== null;
 
         $data = [
             'selectedParameters' => $selectedParameters,
