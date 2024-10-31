@@ -18,7 +18,7 @@ class Geolocation implements GeolocationInterface
         $this->request = $request;
     }
 
-    public function getLocation() : ?array
+    public function getLocation(): ?array
     {
         $visitorIpAddress = $this->remoteAddress->getRemoteAddress();
         return $this->request->makeRequestGeolocationApi($visitorIpAddress);

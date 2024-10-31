@@ -7,7 +7,6 @@ use Monolog\Logger;
 
 class CustomLogger extends Logger
 {
-
     private string $fileName;
 
     public function __construct(

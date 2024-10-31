@@ -41,7 +41,7 @@ class Config implements ConfigInterface
     {
         return $this->scopeConfig->getValue(self::XML_PATH_WEATHER_PARAMETERS);
     }
-    
+
     /**
      * @inheritdoc
      */
