@@ -28,24 +28,39 @@ class Request
 
     public function makeRequestGeolocationApi($ipAddress): ?array
     {
-
         $cacheKey = 'geo_' . md5($ipAddress);
-        $cacheLifetime = 1440 * 60; // 1440 minutes (24 hours)
-
+        $cacheLifetime = 1440 * 60;
         $cachedResponse = $this->cacheInterface->load($cacheKey);
+
         if ($cachedResponse) {
             return json_decode($cachedResponse, true);
         }
+
         try {
             $url = "http://ip-api.com/json/{$ipAddress}";
-
             $this->curl->get($url);
             $response = $this->curl->getBody();
             $responseDecoded = json_decode($response, true);
 
             if (isset($responseDecoded['status']) && $responseDecoded['status'] === 'fail') {
-                $this->logger->error('API (ip-api.com) returned failure: ' . $responseDecoded['message']);
-                return null;
+                $this->logger->info('API (ip-api.com) returned failure: ' . $responseDecoded['message'] . '. Attempting to retrieve location using real IP address.');
+                $realIpAddress = file_get_contents("http://ipecho.net/plain");
+
+                if ($realIpAddress) {
+                    $url = "http://ip-api.com/json/{$realIpAddress}";
+
+                    $this->curl->get($url);
+                    $response = $this->curl->getBody();
+                    $responseDecoded = json_decode($response, true);
+
+                    if (isset($responseDecoded['status']) && $responseDecoded['status'] === 'fail') {
+                        $this->logger->error('The second attempt with the real IP address also failed: ' . $responseDecoded['message']);
+                        return null;
+                    }
+                } else {
+                    $this->logger->error('Failed to obtain the real IP address from the external service.');
+                    return null;
+                }
             }
 
             if ($response) {
@@ -53,7 +68,6 @@ class Request
             }
 
             return $responseDecoded;
-
         } catch (\Exception $e) {
             $this->logger->error('makeRequestGeolocationApi() failed ' . $e->getMessage());
             return null;
@@ -138,7 +152,6 @@ class Request
             }
 
             return $responseDecoded;
-
         } catch (\Exception $e) {
             $this->logger->error('makeRequestWeatherApi() failed: ' . $e->getMessage());
             return null;
