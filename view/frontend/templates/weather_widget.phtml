@@ -3,10 +3,18 @@
 /**
  * @var CristianScheid\WeatherWidget\Block\WeatherWidget $block
  */
-$isModuleEnabled = json_encode($block->isModuleEnabled());
-$lastConfigChange = json_encode($block->getLastConfigChange());
+
+$isModuleEnabled = $block->isModuleEnabled();
+$lastConfigChange = $block->getLastConfigChange();
 ?>
-<script>
-    const isModuleEnabled = <?= $isModuleEnabled ?>;
-    const lastConfigChange = <?= $lastConfigChange ?>;
+
+<script type="text/x-magento-init">
+  {
+    "*": {
+      "CristianScheid_WeatherWidget/js/weather-widget": {
+        "isModuleEnabled": "<?= $isModuleEnabled ?>",
+        "lastConfigChange": "<?= $lastConfigChange ?>"
+      }
+    }
+  }
 </script>

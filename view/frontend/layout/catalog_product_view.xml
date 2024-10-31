@@ -3,7 +3,6 @@
       xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <head>
         <css src="CristianScheid_WeatherWidget::css/weather-widget.css"/>
-        <script src="CristianScheid_WeatherWidget::js/weather-widget.js"/>
     </head>
     <body>
         <referenceContainer name="content">
