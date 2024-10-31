@@ -13,7 +13,6 @@ define(function() {
         const responseRaw = await fetch('/rest/V1/weatherwidget/data');
         if (responseRaw.ok) {
             const response = await responseRaw.json();
-            console.log(getCurrentTime());
             return response;
         } else {
             console.error('weather-widget-fetchDataFromApi() failed: ', responseRaw.statusText);
