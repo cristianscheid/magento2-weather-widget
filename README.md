@@ -96,11 +96,15 @@ The widget updates its data every 15 minutes using a dual caching mechanism for 
 
 When data is updated, there’s no need to refresh the browser, allowing users to access the latest weather information automatically.
 
-## Important Notes
+## License
 
-This module was developed for educational purposes and is intended for non-commercial use only. It leverages the following APIs, which are free for non-commercial use:
+Distributed under the MIT License. See LICENSE.txt for more information.
+
+### Usage Restrictions
+
+This project utilizes the following APIs, which are free for non-commercial use only:
 
 - [IP-API](https://ip-api.com/docs/) (for geolocation based on IP)
 - [Open-Meteo API](https://open-meteo.com/en/docs) (for weather data)
 
-Please ensure that your use of this module complies with the usage policies of these APIs.
+While this code is licensed under the MIT License and can be used for any purpose, please be aware that the APIs integrated into this project are governed by usage policies that restrict their use to non-commercial purposes. As a result, any application or service developed with this project must refrain from utilizing these APIs for commercial applications.
