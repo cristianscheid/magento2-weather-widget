@@ -107,4 +107,4 @@ This project utilizes the following APIs, which are free for non-commercial use 
 - [IP-API](https://ip-api.com/docs/) (for geolocation based on IP)
 - [Open-Meteo API](https://open-meteo.com/en/docs) (for weather data)
 
-While this code is licensed under the MIT License and can be used for any purpose, please be aware that the APIs integrated into this project are governed by usage policies that restrict their use to non-commercial purposes. As a result, any application or service developed with this project must refrain from utilizing these APIs for commercial applications.
+While this code is licensed under the MIT License and can be used for any purpose, please note that the integrated APIs are subject to usage policies that restrict their use to non-commercial purposes. Therefore, any application or service developed with this project must not use these APIs for commercial applications. If you wish to use these APIs commercially, you are free to adapt the code to work with their paid versions.
