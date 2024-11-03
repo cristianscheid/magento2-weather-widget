@@ -19,7 +19,7 @@ The Weather Widget module seamlessly integrates real-time weather data into Mage
 ![MySQL](https://img.shields.io/badge/MySQL-8.0-gray?logo=mysql&style=for-the-badge)
 
 ![JavaScript](https://img.shields.io/badge/JavaScript-ES6-gray?logo=javascript&style=for-the-badge)
-![CSS3](https://img.shields.io/badge/CSS3-gray?logo=css3&style=for-the-badge)
+![CSS](https://img.shields.io/badge/CSS-CSS3-gray?logo=css3&style=for-the-badge)
 
 ## Visuals
 
