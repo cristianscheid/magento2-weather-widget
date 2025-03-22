@@ -14,12 +14,12 @@ The Weather Widget module seamlessly integrates real-time weather data into Mage
 
 ## Built With
 
-![PHP](https://img.shields.io/badge/PHP-8.3-gray?logo=php&style=for-the-badge)
-![Magento](https://img.shields.io/badge/Magento-2.4.7-gray?logo=magento&style=for-the-badge)
-![MySQL](https://img.shields.io/badge/MySQL-8.0-gray?logo=mysql&style=for-the-badge)
+![PHP][php-badge]
+![Magento][magento-badge]
+![MySQL][mysql-badge]
 
-![JavaScript](https://img.shields.io/badge/JavaScript-ES6-gray?logo=javascript&style=for-the-badge)
-![CSS](https://img.shields.io/badge/CSS-CSS3-gray?logo=css3&style=for-the-badge)
+![JavaScript][javascript-badge]
+![CSS][css-badge]
 
 ## Visuals
 
@@ -108,3 +108,11 @@ This project utilizes the following APIs, which are free for non-commercial use 
 - [Open-Meteo API](https://open-meteo.com/en/docs) (for weather data)
 
 While this code is licensed under the MIT License and can be used for any purpose, please note that the integrated APIs are free only for non-commercial use. If you wish to use these APIs for commercial purposes, a paid subscription is required. Therefore, any application or service developed with this project must not use these APIs commercially unless you have adapted the code to work with their paid versions.
+
+<!-- Badges for 'Built With' section -->
+
+[php-badge]: https://img.shields.io/badge/PHP-8.3-gray?style=for-the-badge&logo=php&logoColor=white
+[magento-badge]: https://img.shields.io/badge/Magento-2.4.7-gray?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM6dj0iaHR0cHM6Ly92ZWN0YS5pby9uYW5vIj48cGF0aCBkPSJNMTIgMjRsLTQuNDU1LTIuNTcydi0xMmwyLjk3LTEuNzE1djEyLjAwMWwxLjQ4NS45MDIgMS40ODUtLjkwMlY3LjcxM2wyLjk3MSAxLjcxNXYxMkwxMiAyNHpNMjIuMzkxIDZ2MTJsLTIuOTY5IDEuNzE0VjcuNzEzTDEyIDMuNDMgNC41NzQgNy43MTN2MTIuMDAxTDEuNjA5IDE4VjZMMTIgMGwxMC4zOTEgNnoiIGZpbGw9IiNmZmYiLz48L3N2Zz4=
+[mysql-badge]: https://img.shields.io/badge/MySQL-8.0-gray?style=for-the-badge&logo=mysql&logoColor=white
+[javascript-badge]: https://img.shields.io/badge/JavaScript-ES6-gray?style=for-the-badge&logo=javascript&logoColor=white
+[css-badge]: https://img.shields.io/badge/CSS-CSS3-gray?style=for-the-badge&logo=css3&logoColor=white
